@@ -4,13 +4,14 @@ This repository is meant to hold all of the standalone ROOT macros related to th
 
 A bash script, called <b>runYZvalidation.sh</b>, is provided to create all the necessary histograms and plots for the calibration once the crossing muons tuples are available. In order to run the script, there are 3 parameters used as an input parameters:
 <ul>
-<li> Version of validation. You can use "v1", "v2", "v3", etc. This is mostly done to ensure a proper bookkeeping for all the different studies/variations. </li>
-<li> Output directory of the tuples. This is the directory where the tuples are located in. An example of how the direcory will look like is as follows: <pre>/pnfs/uboone/scratch/users/wospakrk/CrossingMuPitchCorr_take2/v08_00_00_12/CrossingMuPitchCorr@ </pre>
+<li> Label tag for the calibration/MC validation. You can use "v1", "v2", "v3". This is mostly done to ensure a proper bookkeeping for all the different studies/variations </li>
+<li> Output directory of the tuples. This is the directory where the tuples are located in. An example of how the direcory will look like is as follows: <pre>/pnfs/uboone/scratch/users/wospakrk/CrossingMuPitchCorr_take2/v08_00_00_12/CrossingMuPitchCorr</pre>
 <li> Name of the output directory where you will keep your histogram files. You just need to supply a folder name. The directory itself will be created for you under the @/uboone/data/users/$USER directory@. Here as an example, I am using the "ExampleHistos" as the name of the folder.</li>
-</ul>
+<li> Type of sample you are analyzing: "data" or "mc"</ul>
+<li> Type of study that you want to do: "calibration" of the dQ/dx or the "validation" of the SCE. The difference between the two is that the former will only perform the calibration for the Full SCE correction (after space, pitch, and electric-field corrected), while the latter will go through all 4 variations of SCE sample (in simulation) or 3 variations of SCE sample (in Data).</ul>
 
-Putting it all together, the command to run this:
-<pre> . runYZvalidation.sh v1 /pnfs/uboone/scratch/users/wospakrk/CrossingMuPitchCorr_take2/v08_00_00_12/CrossingMuPitchCorr ExampleHistos </pre>
+Putting it all together, an example of the command line to run this:
+<pre> . runYZvalidation.sh v1 /pnfs/uboone/scratch/users/wospakrk/CrossingMuPitchCorr_take2/v08_00_00_12/CrossingMuPitchCorr ExampleHistos mc calibration</pre>
 
 The main macros used to create the histograms are:
 <ul>
