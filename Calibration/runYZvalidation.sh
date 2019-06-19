@@ -35,25 +35,25 @@ fi
 
 if [[ $5 == "calibration" ]]; then
   echo "only creating the Full SCE corrected sample..." 
-  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
-  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
 fi
 
 
 if [[ $5 == "validation" ]]; then
   echo "creating all the SCE correction variations samples..." 
   if [[ $4 == "mc" ]]; then
-    root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu_noSCE/'${1}'/XYZcorrection", 3, 2016, "'${3}'", "'${4}'", "'${5}'")';
+    root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu_noSCE/'${4}'/'${1}'/XYZcorrection", 3, 2016, "'${3}'", "'${4}'", "'${5}'")';
   fi
-  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 0, 2016, "'${3}'", "'${4}'", "'${5}'")';
-  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 1, 2016, "'${3}'", "'${4}'", "'${5}'")';
-  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 0, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 1, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'Y_Z_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
   if [[ $4 == "mc" ]]; then
-    root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu_noSCE/'${1}'/XYZcorrection", 3, 2016, "'${3}'", "'${4}'", "'${5}'")';
+    root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu_noSCE/'${4}'/'${1}'/XYZcorrection", 3, 2016, "'${3}'", "'${4}'", "'${5}'")';
   fi
-  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 0, 2016, "'${3}'", "'${4}'", "'${5}'")';
-  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 1, 2016, "'${3}'", "'${4}'", "'${5}'")';
-  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 0, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 1, 2016, "'${3}'", "'${4}'", "'${5}'")';
+  root -b -q 'X_calibration_DataDrivenMap.C("/uboone/data/users/'${USER}'/dQdxCrossingMu/'${4}'/'${1}'/XYZcorrection", 2, 2016, "'${3}'", "'${4}'", "'${5}'")';
 fi
 
 
