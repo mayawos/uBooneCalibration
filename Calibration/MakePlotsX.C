@@ -127,8 +127,8 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 						double m_err;
 						double b_err;
 						TF1 *fit;
-						if( expo ) fit = new TF1("fit","expo", 15., 245. );
-						else fit = new TF1("fit","pol1", 15., 245. );
+						if( expo ) fit = new TF1("fit","expo", 0., 210. );
+						else fit = new TF1("fit","pol1", 0., 210. );
 						reco_dqdx[t]->Fit(fit, "QRN");
 
 						double pars[2];
