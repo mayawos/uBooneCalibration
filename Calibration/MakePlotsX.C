@@ -84,7 +84,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 					//========================================
 					// drift distance
 					//========================================
-					TString plotdir = getDir(Form("/uboone/data/users/wospakrk/PLOTS_DataMap_%s",dirtag.c_str()));
+					TString plotdir = getDir(Form("/uboone/data/users/%s/PLOTS_DataMap_%s",getenv("USER"),dirtag.c_str()));
 
 					TString cName = Form("%s/dq_dx_x_hist_month_%d_%d_plane_%d", plotdir.Data(), i_month,i_date,plane);
 					Draw_Overlay_With_Legend( reco_dqdx, cName, "Reconstructed dQ/dx"); 
