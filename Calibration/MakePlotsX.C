@@ -109,7 +109,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 						if( expo ) plotsubdir = getDir(Form("%s/expo",plotdir.Data()));
 						else plotsubdir = getDir(Form("%s/pol1",plotdir.Data()));
 
-						TString canname = Form("%s/PLOTS_DataDrivenMap/DataMapRun4_expo/Drift_distance_vs_dQdx%s_month%d_%02d_plane%d",plotsubdir.Data(),tags[t].c_str(),i_month,i_date,plane);
+						TString canname = Form("%s/Drift_distance_vs_dQdx%s_month%d_%02d_plane%d",plotsubdir.Data(),tags[t].c_str(),i_month,i_date,plane);
 						canvas = new TCanvas(canname,canname);
 						reco_dqdx[t]->SetLineColor(1);
 						reco_dqdx[t]->GetYaxis()->SetTitle("Median dQ/dx [ADC/cm]");
