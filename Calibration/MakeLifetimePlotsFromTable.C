@@ -25,7 +25,6 @@ int MakeLifetimePlotsFromTable(std::string lifetime_file, std::string slope_file
 	ifstream in(lifetime_file);
 	std::string unused;
 	while ( std::getline(in, unused) ) countline++;
-	std::cout << "lines: " << countline << std::endl;
 
    	std::vector<TH1D*> hist_planes;
    	std::vector<TH1D*> slope_planes;
@@ -48,7 +47,7 @@ int MakeLifetimePlotsFromTable(std::string lifetime_file, std::string slope_file
 	while (fgets(line,500,fp)) {
   		sscanf(&line[0], "%s %f %f",&date[0],&planes[pl],&errs[pl]);
   		if(bin%5==0){ 
-    			std::cout << "date =" << date.c_str() << std::endl;
+    			if(verbose) std::cout << "date =" << date.c_str() << std::endl;
     			Dates.push_back(date.c_str());
   		}
   		else Dates.push_back("");
