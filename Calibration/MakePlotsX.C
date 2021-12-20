@@ -40,6 +40,8 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 		std::cout << "plane: " << planestr[plane] << std::endl;
 		if( expo ) fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_expo_month0plusShutdown.txt";
 		else fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_pol1_month0plusShutdown.txt";
+		if( expo ) fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_expo_month0plusShutdown.txt";
+		else fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_pol1_month0plusShutdown.txt";
 
 		outfile.open(fname1);
 
@@ -57,7 +59,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 					std::vector<TString> datename;
 
 					for( int t=0; t < tags.size(); t++ ){
-						filename = Form("/uboone/data/users/wospakrk/DataMap_%s_plane%d/final_calibration_root_files_datadrivenmap%s_month%d/X_correction_factors_2019_month_%d_%d_plane_%d.root",dirtag.c_str(),plane,tags[t].c_str(),i_month,i_month,i_date,plane);
+						filename = Form("/uboone/data/users/wospakrk/DataMap_%s_plane%d/final_calibration_root_files_datadrivenmap%s_month%d/X_correction_factors_%d_month_%d_%d_plane_%d.root",dirtag.c_str(),plane,tags[t].c_str(),i_month,i_year,i_month,i_date,plane);
 						cout << filename << endl;
 
 						if( ! (is_file_exist( filename.Data() ) ) ){ 
@@ -84,7 +86,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 					//========================================
 					// drift distance
 					//========================================
-					TString plotdir = getDir(Form("/uboone/data/users/%s/PLOTS_DataMap_%s",getenv("USER"),dirtag.c_str()));
+					TString plotdir = getDir(Form("/uboone/data/users/%s/PLOTS_DataMap2_%s",getenv("USER"),dirtag.c_str()));
 
 					TString cName = Form("%s/dq_dx_x_hist_month_%d_%d_plane_%d", plotdir.Data(), i_month,i_date,plane);
 					Draw_Overlay_With_Legend( reco_dqdx, cName, "Reconstructed dQ/dx"); 
