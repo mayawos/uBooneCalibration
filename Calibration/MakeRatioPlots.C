@@ -96,15 +96,15 @@ void MakeRatioPlot(TString dir1, TString dir2){
     for( int binx = 0; binx < y_z_ratio->GetNbinsX(); binx++ ){ 
       //loop over bin in y
       for( int biny = 0; biny < y_z_ratio->GetNbinsY(); biny++ ){
-	      double dQdx1 = y_z_ratio->GetBinContent(binx,biny);
-	      double dQdx2 = y_z_delta->GetBinContent(binx,biny);
+	double dQdx1 = y_z_ratio->GetBinContent(binx,biny);
+	double dQdx2 = y_z_delta->GetBinContent(binx,biny);
       	double err1 = y_z_ratio_err->GetBinContent(binx,biny);
-	      double err2 = y_z_delta_err->GetBinContent(binx,biny);
+	double err2 = y_z_delta_err->GetBinContent(binx,biny);
         //cout << "dQdx1, dQdx2, err1, err2 = " << dQdx1 << ", " << dQdx2 << ", " << err1 << ", " << err2 << ", " << endl;
-	      if( dQdx1 != 0. ) hist_dqdx_ratio->Fill(dQdx1);
+	if( dQdx1 != 0. ) hist_dqdx_ratio->Fill(dQdx1);
         hist_dqdx_delta->Fill(dQdx2);
-	      if( err1 != 0. ) hist_err_ratio->Fill(err1);
-	      hist_err_delta->Fill(err2);
+	if( err1 != 0. ) hist_err_ratio->Fill(err1);
+	hist_err_delta->Fill(err2);
       }
     } 
     
