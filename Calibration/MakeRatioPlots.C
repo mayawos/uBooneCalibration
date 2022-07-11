@@ -52,17 +52,17 @@ void MakeRatioPlots(TString dir1, TString dir2, TString outdir){
     TH2F *ratio_err = (TH2F*)error_dq_dx_hist0->Clone(Form("ratio_error_dq_dx_z_vs_y_hist"));
     TH2F *delta_err = (TH2F*)error_dq_dx_hist0->Clone(Form("delta_error_dq_dx_z_vs_y_hist"));
     
-    ratio_dqdx->SetTitle(Form("dQ/dx ratio (Run 1 / Run2) plane%d",plane));
+    ratio_dqdx->SetTitle(Form("dQ/dx ratio (Efield SCE Corr Abs. / Efield SCE Corr Frac.) plane%d",plane));
     ratio_dqdx->Divide(dq_dx_z_vs_y_hist1);
     
-    ratio_err->SetTitle(Form("YZ correction factor ratio (Run 1 / Run2) plane%d",plane));
+    ratio_err->SetTitle(Form("YZ correction factor ratio (Efield SCE Corr Abs. / Efield SCE Corr Frac.) plane%d",plane));
     ratio_err->Divide(error_dq_dx_hist1);
     
-    delta_dqdx->SetTitle(Form("dQ/dx delta (non-T0 corr - T0 corr) plane%d",plane));
+    delta_dqdx->SetTitle(Form("dQ/dx delta (Efield SCE Corr Abs. / Efield SCE Corr Frac.) plane%d",plane));
     dq_dx_z_vs_y_hist1->Scale(-1.0);
     delta_dqdx->Add(dq_dx_z_vs_y_hist1);
     
-    delta_err->SetTitle(Form("YZ correction factor delta (non-T0 corr - T0 corr) plane%d",plane));
+    delta_err->SetTitle(Form("YZ correction factor delta (Efield SCE Corr Abs. / Efield SCE Corr Frac.) plane%d",plane));
     error_dq_dx_hist1->Scale(-1.0);
     delta_err->Add(error_dq_dx_hist1);
     
