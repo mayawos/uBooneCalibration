@@ -63,7 +63,7 @@ void MakeSlices(){
         std::vector<double> point = {histosrawnew[0]->GetXaxis()->GetBinCenter(i), histosrawnew[0]->GetYaxis()->GetBinCenter(j), histosrawnew[0]->GetZaxis()->GetBinCenter(k)};
         std::vector<double> theEfieldOffsetsRaw = GetRawCoordinate( point, histosraw[0],histosraw[1],histosraw[2]);
         std::vector<double> theEfieldOffsetsVoxel = GetOffsetsVoxel( point, histosvoxel[0],histosvoxel[1],histosvoxel[2]);
-        for(int n=0 ; n<histosrawnew[0].size() ; ++n) {
+        for(int n=0 ; n<histosrawnew.size() ; ++n) {
           if(fabs(theEfieldOffsetsRaw[n]<=1.0)) histosrawnew[n]->SetBinContent(i,j,k,theEfieldOffsetsRaw[n]);
           if(fabs(theEfieldOffsetsVoxel[n]<=1.0)) histosvoxelnew[n]->SetBinContent(i,j,k,theEfieldOffsetsVoxel[n]);
         }
