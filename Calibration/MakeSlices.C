@@ -9,6 +9,7 @@
 #include "TFile.h"
 
 
+
 //--Utilities--
 void MakePrettyYXPlot(TH3D* h1, TString suffix, int bin);
 void MakePrettyXYPlot(TH3D* h1, TString suffix, int bin);
@@ -62,12 +63,10 @@ void MakeSlices(){
         std::vector<double> point = {histosrawnew[0]->GetXaxis()->GetBinCenter(i), histosrawnew[0]->GetYaxis()->GetBinCenter(j), histosrawnew[0]->GetZaxis()->GetBinCenter(k)};
         std::vector<double> theEfieldOffsetsRaw = GetRawCoordinate( point, histosraw[0],histosraw[1],histosraw[2]);
         std::vector<double> theEfieldOffsetsVoxel = GetOffsetsVoxel( point, histosvoxel[0],histosvoxel[1],histosvoxel[2]);
-        if(theEfieldOffsetsRaw[0]<=0.02&&theEfieldOffsetsRaw[0]>=-0.05) histosrawnew[0]->SetBinContent(i,j,k,theEfieldOffsetsRaw[0]);
-        if(theEfieldOffsetsVoxel[0]<=0.02&&theEfieldOffsetsVoxel[0]>=-0.05) histosvoxelnew[0]->SetBinContent(i,j,k,theEfieldOffsetsVoxel[0]);
-        if(theEfieldOffsetsRaw[1]<=0.03&&theEfieldOffsetsRaw[1]>=-0.02) histosrawnew[1]->SetBinContent(i,j,k,theEfieldOffsetsRaw[1]);
-        if(theEfieldOffsetsVoxel[1]<=0.03&&theEfieldOffsetsVoxel[1]>=-0.02) histosvoxelnew[1]->SetBinContent(i,j,k,theEfieldOffsetsVoxel[1]);	
-	histosrawnew[2]->SetBinContent(i,j,k,theEfieldOffsetsRaw[2]);
-	histosvoxelnew[2]->SetBinContent(i,j,k,theEfieldOffsetsVoxel[2]);
+        for(int n=0 ; n<histosrawnew[0].size() ; ++n) {
+          if(fabs(theEfieldOffsetsRaw[n]<=1.0)) histosrawnew[n]->SetBinContent(i,j,k,theEfieldOffsetsRaw[n]);
+          if(fabs(theEfieldOffsetsVoxel[n]<=1.0)) histosvoxelnew[n]->SetBinContent(i,j,k,theEfieldOffsetsVoxel[n]);
+        }
       }
     }
   }
