@@ -17,20 +17,24 @@
 #include <TImage.h>
 #include <iomanip>
 
-//dir1="/uboone/data/users/wospakrk/DataMap_FinalMCC9Calib/final_calibration_root_files_datadrivenmap_efieldcorr_month0/"
-//dir2="/uboone/data/users/wospakrk/DataMap_Run4Calib/final_calibration_root_files_datadrivenmap_efieldcorr_month0"
 
-void MakeRatioPlot(TString dir1, TString dir2);
+// ------------------------------------------------------------
+// Example How to run macro:
+// root -b -q 'MakeRatioPlots.C("/uboone/data/users/wospakrk/Run4_Run4T0CorrEfieldAbs/final_calibration_root_files_datadrivenmap_efieldcorrAbs/", "/uboone/data/users/wospakrk/Run4_Run4T0CorrEfieldFrac/final_calibration_root_files_datadrivenmap_efieldcorr/", "DataDataRatio_EfieldCorr")'
+// ------------------------------------------------------------
 
-void MakeRatioPlot(TString dir1, TString dir2){
+void MakeRatioPlots(TString dir1, TString dir2, TStringa outdir);
+TString GetDir( const std::string& subdir );
+
+void MakeRatioPlots(TString dir1, TString dir2, TString outdir){
  
   std::vector<TH2F*> ratios_dqdx, ratios_errors;
   std::vector<TH2F*> deltas_dqdx, deltas_errors;
   
   //loop over the 3 planes
   for( int plane=0;plane < 3; plane++ ){ 
-    TString filename0 = Form("%s/YZ_correction_factors_2016_month_0_plane_%d.root",dir1,plane);
-    TString filename1 = Form("%s/YZ_correction_factors_2016_month_0_plane_%d.root",dir2,plane);
+    TString filename0 = Form("%s/YZ_correction_factors_plane_%d.root",dir1.Data(),plane);
+    TString filename1 = Form("%s/YZ_correction_factors_plane_%d.root",dir2.Data(),plane);
       
     TFile *_file0 = TFile::Open(filename0,"READ");
     TFile *_file1 = TFile::Open(filename1,"READ");
@@ -70,8 +74,11 @@ void MakeRatioPlot(TString dir1, TString dir2){
     //_file0->Close();
     
   }//loop over planes
+
+  //create main output directory
+  TString maindir = GetDir(Form("%s", outdir.Data()));
   
-  TFile *ratiofile =  new TFile("/uboone/data/users/wospakrk/DataDataRatio_debug/ratios_and_deltas_dqdx.root", "recreate");
+  TFile *ratiofile =  new TFile(Form("%s/ratios_and_deltas_dqdx.root",maindir.Data()), "recreate");
   for( int plane=0;plane < 3; plane++ ){ 
     TH2F* y_z_ratio = (TH2F*)ratios_dqdx[plane]->Clone(Form("2d_ratio_dqdx_plane%d",plane));
     y_z_ratio->SetMaximum(3.0);
@@ -110,7 +117,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     
     //2d dqdx ratio
     {
-      TString cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/2d_dqdx_yzmap_ratio_plane_%d",plane);
+      TString cName = Form("%s/2d_dqdx_yzmap_ratio_plane_%d",maindir.Data(),plane);
       TString titlehist = Form("Ratio dQ/dx plane %d; Z coordinate [cm]; Y coordinate [cm]", plane);
       TCanvas *c1 = new TCanvas(cName,cName);
       y_z_ratio->GetYaxis()->SetDecimals();
@@ -124,7 +131,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
 
     //2d dqdx delta
     {
-      TString cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/2d_dqdx_yzmap_delta_plane_%d",plane);
+      TString cName = Form("%s/2d_dqdx_yzmap_delta_plane_%d",maindir.Data(),plane);
       TString titlehist = Form("Delta dQ/dx plane %d; Z coordinate [cm]; Y coordinate [cm]", plane);
       TCanvas *c1 = new TCanvas(cName,cName);
       y_z_delta->GetYaxis()->SetDecimals();
@@ -137,7 +144,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     
     //2d correction ratio
     {
-      TString cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/2d_dqdx_yzmap_ratio_err_plane_%d",plane);
+      TString cName = Form("%s/2d_dqdx_yzmap_ratio_err_plane_%d",maindir.Data(),plane);
       TString titlehist = Form("Ratio YZ corr factor plane %d; Z coordinate [cm]; Y coordinate [cm]", plane);
       TCanvas *c1 = new TCanvas(cName,cName);
       y_z_ratio_err->GetYaxis()->SetDecimals();
@@ -150,7 +157,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     
     //2d correction delta
     {
-      TString cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/2d_dqdx_yzmap_delta_err_plane_%d",plane);
+      TString cName = Form("%s/2d_dqdx_yzmap_delta_err_plane_%d",maindir.Data(),plane);
       TString titlehist = Form("Delta YZ corr factor plane %d; Z coordinate [cm]; Y coordinate [cm]", plane);
       TCanvas *c1 = new TCanvas(cName,cName);
       y_z_delta_err->GetYaxis()->SetDecimals();
@@ -162,7 +169,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     }
     
     //1d corr factor ratio
-    TString cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/1d_dqdx_yzmap_ratio_plane_%d",plane);
+    TString cName = Form("%s/1d_dqdx_yzmap_ratio_plane_%d",maindir.Data(),plane);
     TString titlehist = Form("plane %d; Ratio dQ/dx; Entries", plane);
     {
       TCanvas *c2 = new TCanvas(cName,cName);
@@ -177,7 +184,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     }
     
     //1d corr factor delta
-    cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/1d_dqdx_yzmap_delta_plane_%d",plane);
+    cName = Form("%s/1d_dqdx_yzmap_delta_plane_%d",maindir.Data(),plane);
     titlehist = Form("plane %d; Delta dQ/dx; Entries", plane);
     {
       TCanvas *c2 = new TCanvas(cName,cName);
@@ -192,7 +199,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     }
     
     //1d corr factor ratio
-    cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/1d_dqdx_yzmap_ratio_err_plane_%d",plane);
+    cName = Form("%s/1d_dqdx_yzmap_ratio_err_plane_%d",maindir.Data(),plane);
     titlehist = Form("plane %d; Ratio Correction Factor; Entries", plane);
     {
       TCanvas *c2 = new TCanvas(cName,cName);
@@ -207,7 +214,7 @@ void MakeRatioPlot(TString dir1, TString dir2){
     }
     
     //1d corr factor delta
-    cName = Form("/uboone/data/users/wospakrk/DataDataRatio_debug/1d_dqdx_yzmap_delta_err_plane_%d",plane);
+    cName = Form("%s/1d_dqdx_yzmap_delta_err_plane_%d",maindir.Data(),plane);
     titlehist = Form("plane %d; Delta Correction Factor; Entries", plane);
     {
       TCanvas *c2 = new TCanvas(cName,cName);
@@ -226,4 +233,20 @@ void MakeRatioPlot(TString dir1, TString dir2){
   ratiofile->Close();  
   
   return;
+}
+
+TString GetDir( const std::string& subdir )
+{
+  
+  TString getdir( subdir );
+  
+  if( 0 != system( Form( "test -d %s", getdir.Data() ) ) )
+    {
+      std::cout << "histos directory does not exist, making one now.... " << std::endl;
+      int madedir = system( Form( "mkdir -m 755 -p %s", getdir.Data() ) );
+      if( 0 != madedir )
+	std::cout << "HistoDir, Could not make plot directory, " << getdir << std::endl;
+    }
+  
+  return getdir;
 }
