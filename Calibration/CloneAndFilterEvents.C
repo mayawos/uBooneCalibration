@@ -34,7 +34,7 @@ void CloneAndFilterEvents(std::string indir, int i_month, int f_month){
 
   //============= XYZcorrection tuples =======================================
   std::vector<int> months;
-  for(i = i_month; i <= f_month; i++ ) months.push_back(i);
+  for(int i = i_month; i <= f_month; i++ ) months.push_back(i);
   std::vector<int>::iterator it;
   std::vector<TFile*> newfiles;
   std::vector<TTree*> newtrees;
