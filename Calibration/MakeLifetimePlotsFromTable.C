@@ -9,7 +9,6 @@
 #include <time.h>
 #include <string.h>
 
-
 void MakeRatioPlot(TH1D *hist, TH1D *slope, vector<std::string> Dates, int plane, int nlines);
 void MakeRatioPlotOverlay(std::vector<TH1D*> histos, std::vector<TH1D*> slopes, vector<std::string> Dates, int nlines);
 void ratioplot( TCanvas *c, TH1D *h1, TH1D *h3, vector<std::string> Dates, int nlines);
@@ -17,7 +16,6 @@ void ratioplotoverlay( TCanvas *c, TH1D *h1p0, TH1D *h3p0, TH1D *h1p1, TH1D *h3p
 
 int MakeLifetimePlotsFromTable(std::string lifetime_file, std::string slope_file, int pl, bool verbose=true )
 {
-
 	FILE *fp = fopen(lifetime_file.c_str(),"r");
    	FILE *fs = fopen(slope_file.c_str(),"r");
    
@@ -66,7 +64,11 @@ int MakeLifetimePlotsFromTable(std::string lifetime_file, std::string slope_file
   		hist_planes[pl]->SetBinError(bin,stat_err);
   		bin++;
 	}
-
+	if ( verbose ) {
+	  for ( int dates_i = 0; dates_i < Dates.size(); dates_i++ ) {
+	    std::cout << Dates[dates_i] << std::endl;
+	  }
+	}
 	bin=0;
 	char line_s[500];
 	//char *date[100];
@@ -91,6 +93,7 @@ int MakeLifetimePlotsFromTable(std::string lifetime_file, std::string slope_file
 	fclose(fp);
 	fclose(fs);
 	return 0;
+
 
 }
 
@@ -153,8 +156,8 @@ void ratioplot( TCanvas *c, TH1D *h1, TH1D *h3, vector<std::string> Dates, int n
 	h1->GetXaxis()->SetTitleSize(0);
 	h1->GetYaxis()->SetLabelSize(0.05);
 	h1->GetYaxis()->SetTitleSize(60);
-	h1->SetMaximum(300);
-	h1->SetMinimum(-300);
+	h1->SetMaximum(37);
+	h1->SetMinimum(0);
 	h1->Draw("hist P");       // Draw h1
 	
 	TLine *line = new TLine(0,0.,float(nlines),0.);
@@ -198,8 +201,8 @@ void ratioplot( TCanvas *c, TH1D *h1, TH1D *h3, vector<std::string> Dates, int n
 	pad2->cd();       // pad2 becomes the current pad
 	
 	h3->SetLineColor(kMagenta);
-	h3->SetMinimum(-25);  // Define Y ..
-	h3->SetMaximum(10); // .. range
+	h3->SetMinimum(-20);  // Define Y ..
+	h3->SetMaximum(20); // .. range
 	//h3->Sumw2();
 	h3->SetStats(0);      // No statistics on lower plot
 	h3->SetMarkerStyle(8);
@@ -264,7 +267,7 @@ void ratioplot( TCanvas *c, TH1D *h1, TH1D *h3, vector<std::string> Dates, int n
 	h3->GetXaxis()->SetTitleFont(43);
 	h3->GetXaxis()->SetTitleOffset(3);
 	h3->GetXaxis()->SetLabelFont(43); // Absolute font size in pixel (precision 3)
-	h3->GetXaxis()->SetLabelSize(15);
+	h3->GetXaxis()->SetLabelSize(28);
 
 }
 
