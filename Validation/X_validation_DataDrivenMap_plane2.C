@@ -82,12 +82,12 @@ void X_validation_DataDrivenMap_plane2::Loop(int corr, int i_year, int i_month, 
       TFile my_file(Form("%s/YZ_correction_factors_2016_month_0_plane_%d.root",histdir.Data(),plane_number));
       TH2F *month_hist  = (TH2F*)my_file.Get(Form("error_dq_dx_z_vs_y_hist_plane%d",plane_number));
       
-      TString subdirx = getDir( Form("/uboone/data/users/wospakrk/DataMap_%s_plane%d", sample.c_str(),plane_number) );
+      TString subdirx = getDir( Form("/uboone/data/users/%s/uBooneCalibration/%s/Histograms", getenv("USER"),sample.c_str()) );
       TString histdirx;
-      if( corr==0 ) histdirx = getDir( Form("%s/final_calibration_root_files_datadrivenmap_nocorr_month%d",subdirx.Data(),i_month) );
-      else if( corr==1 ) histdirx = getDir( Form("%s/final_calibration_root_files_datadrivenmap_spacecorr_month%d",subdirx.Data(),i_month) );
-      else if( corr==2 ) histdirx = getDir( Form("%s/final_calibration_root_files_datadrivenmap_efieldcorr_month%d",subdirx.Data(),i_month) );
-      else if( corr==6 ) histdirx = getDir( Form("%s/final_calibration_root_files_datadrivenmap_efieldcorr_nospatial_month%d",subdirx.Data(),i_month) );
+      if( corr==0 ) histdirx = getDir( Form("%s/nocorr_month%d",subdirx.Data(),i_month) );
+      else if( corr==1 ) histdirx = getDir( Form("%s/spacecorr_month%d",subdirx.Data(),i_month) );
+      else if( corr==2 ) histdirx = getDir( Form("%s/efieldcorr_month%d",subdirx.Data(),i_month) );
+      else if( corr==6 ) histdirx = getDir( Form("%s/efieldcorr_nospatial_month%d",subdirx.Data(),i_month) );
       else{
 	cout << "YOU NEED TO PROVIDE CORRECTION!" << endl;
 	return 1;

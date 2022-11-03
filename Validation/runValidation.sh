@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 ################################
 # setup: modify these parameters
@@ -32,7 +32,12 @@ fi
 ###########################################
 # makes output dirs if they don't exist yet
 ###########################################
-input="/uboone/data/users/${USER}/uBooneCalibration/SAMPLES/${sample}/month"
+basedir="/uboone/data/users/${USER}/uBooneCalibration/${sample}"
+mkdir -p /uboone/data/users/${USER}/uBooneCalibration/${sample}/Ntuples
+mkdir -p /uboone/data/users/${USER}/uBooneCalibration/${sample}/Figures
+mkdir -p /uboone/data/users/${USER}/uBooneCalibration/${sample}/Histograms
+mkdir -p /uboone/data/users/${USER}/uBooneCalibration/${sample}/Output
+input=$basedir"/Ntuples/month"
 
 ######################################
 # generates ROOT files with histograms

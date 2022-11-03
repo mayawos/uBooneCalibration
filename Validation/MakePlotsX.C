@@ -21,10 +21,7 @@ void PaintOverflow(TH1 *h, int histo_n);
 TString getDir( const std::string& subdir );
 //-----------------------------------------
 
-void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_end,bool expo = true);
-
-
-void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_end, bool expo ){
+void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_end, bool expo = true){
 
 	ofstream outfile;
 	std::string fname1; 
@@ -38,12 +35,10 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 
 	for( int plane=2; plane < 3; plane++ ){
 		std::cout << "plane: " << planestr[plane] << std::endl;
-		if( expo ) fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_expo_month0plusShutdown.txt";
-		else fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_pol1_month0plusShutdown.txt";
-		if( expo ) fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_expo_month0plusShutdown.txt";
-		else fname1 = "mcc9_1_globalcali_run4_plane" + planestr[plane] + "_lifetime_all_planes_efieldcorr_pol1_month0plusShutdown.txt";
+		if( expo ) fname1 = "mcc9_1_lifetime_plane" + planestr[plane] + "_expo.txt";
+		else fname1 = "mcc9_1_lifetime_plane" + planestr[plane] + "_pol1.txt";
 
-		outfile.open(fname1);
+		outfile.open(Form("/uboone/data/users/%s/uBooneCalibration/%s/Output/%s",getenv("USER"),dirtag.c_str(),fname1.c_str()));
 
 		for( int i_year=year_start; i_year <year_start+1; i_year++ ){ 
 			for( int i_month=month_start; i_month <= month_end; i_month++ ){ 
@@ -59,7 +54,8 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 					std::vector<TString> datename;
 
 					for( int t=0; t < tags.size(); t++ ){
-						filename = Form("/uboone/data/users/wospakrk/DataMap_%s_plane%d/final_calibration_root_files_datadrivenmap%s_month%d/X_correction_factors_%d_month_%d_%d_plane_%d.root",dirtag.c_str(),plane,tags[t].c_str(),i_month,i_year,i_month,i_date,plane);
+					  filename = Form("/uboone/data/users/%s/uBooneCalibration/%s/Histograms/%s_month%d/X_correction_factors_%d_month_%d_%d_plane_%d.root",
+							  getenv("USER"),dirtag.c_str(),tags[t].c_str(),i_month,i_year,i_month,i_date,plane);
 						cout << filename << endl;
 
 						if( ! (is_file_exist( filename.Data() ) ) ){ 
@@ -83,25 +79,6 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 					if( ! (is_file_exist( filename.Data() ) ) ) continue;
 					TGaxis::SetMaxDigits(4);
 
-					//========================================
-					// drift distance
-					//========================================
-					TString plotdir = getDir(Form("/uboone/data/users/%s/PLOTS_DataMap2_%s",getenv("USER"),dirtag.c_str()));
-
-					TString cName = Form("%s/dq_dx_x_hist_month_%d_%d_plane_%d", plotdir.Data(), i_month,i_date,plane);
-					Draw_Overlay_With_Legend( reco_dqdx, cName, "Reconstructed dQ/dx"); 
-					cName = Form("%s/corrected_dq_dx_x_hist_month%d_%d_plane_%d", plotdir.Data(), i_month,i_date,plane);
-					Draw_Overlay_With_Legend( corr_dqdx, cName, "Corrected dQ/dx");
-
-					//========================================
-					// drift time
-					//========================================
-					cName = Form("%s/dq_dx_t_hist_month%d_%d_plane_%d",plotdir.Data(), i_month,i_date,plane);
-					Draw_Overlay_With_Legend( reco_dqdx_t, cName, "Reconstructed dQ/dx"); 
-					cName = Form("%s/corrected_dq_dx_t_hist_month%d_%d_plane_%d",plotdir.Data(), i_month,i_date,plane);
-					Draw_Overlay_With_Legend( corr_dqdx_t, cName, "Corrected dQ/dx"); 
-					//========================================
-
 					//Fitting
 					//loop over tags
 					for( int t=0; t < tags.size(); t++ ){
@@ -114,6 +91,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 						TString canname = Form("%s/Drift_distance_vs_dQdx%s_month%d_%02d_plane%d",plotsubdir.Data(),tags[t].c_str(),i_month,i_date,plane);
 						canvas = new TCanvas(canname,canname);
 						reco_dqdx[t]->SetLineColor(1);
+						reco_dqdx[t]->SetTitle(Form("%i-%i-%i, Plane 2",i_year,i_month,i_date));
 						reco_dqdx[t]->GetYaxis()->SetTitle("Median dQ/dx [ADC/cm]");
 						reco_dqdx[t]->GetXaxis()->SetTitle("Drift distance [cm]");
 						reco_dqdx[t]->SetMaximum(1.1*reco_dqdx[t]->GetMaximum());
@@ -170,7 +148,7 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 
 						AddPlotLabel( fitParam.c_str(), 0.32, 0.85, 0.035, 2);
 						AddPlotLabel( chi2.c_str(), 0.33, 0.79, 0.035, 2);
-						AddPlotLabel( taglabels[t].c_str(), 0.78, 0.85, 0.05, 6);
+						AddPlotLabel( taglabels[t].c_str(), 0.70, 0.85, 0.05, 6);
 
 						canvas->Update();
 						canvas->Print(Form("%s.pdf",canname.Data()),"pdf");
@@ -188,127 +166,6 @@ void MakePlotsX(std::string dirtag, int year_start, int month_start, int month_e
 			}
 		}
 	}	
-
-	return;
-}
-
-void Draw_Overlay_With_Legend(std::vector<TH1D*> histos,TString canname, std::string xtitle, int type = 1, TPad *pad = 0)
-{// this function draws the histoname from the TObjArray superimposed
-	// and normalised if required
-
-	if( histos.size() == 0 ) return; 
-
-	std::vector<int> colors = {1,2,4};
-	std::vector<std::string> legends_str = {"Spatial+E-field Corr."};
-	//std::vector<std::string> legends_str = {"No Corr.", "Spatial Corr.", "E-field Corr."};
-	if(type==2){ 
-		legends_str.clear();
-		colors.clear();
-		for( int bin=1; bin < 27; bin++ ){
-			legends_str.push_back(Form("bin %d", bin) );
-			colors.push_back(bin);
-		}
-	}
-
-	// lets open and draw the canvas 
-	TCanvas *canvas;
-	if(pad == 0){
-		canvas = new TCanvas(canname,canname);
-		pad = (TPad*)canvas->cd();
-	}
-	pad->cd();
-	pad->SetTicks(0,0);
-	pad->SetRightMargin(0.20);
-
-	TLegend  *legend = new TLegend(0.80,0.3,0.995,0.4); // we need different positions for the legend to not 
-
-	int line=0;
-	for (uint i=0;i<histos.size();i++)
-	{
-		if( type == 2 ){
-			int col=(i%9)+1;
-			if(col==1) line++;
-			histos[i]->SetLineColor(col);
-			histos[i]->SetLineStyle(line);
-		} else {
-			histos[i]->SetLineColor(colors[i]);
-			histos[i]->SetLineStyle(1); 
-		}
-		legend->AddEntry(histos[i],legends_str[i].c_str(),"L");
-	}
-
-	float heightboxes;
-	// the position of the top corner
-	float top_corner,deltay;
-	top_corner = 0.9;
-
-	// if the array has more than 0 histograms lets specify the stat boxes and determine whether we should
-	// draw errors 
-	if (histos.size() > 0) 
-		heightboxes = (float)0.5/(float)histos.size();
-	else
-		heightboxes = (float)0.5;
-
-	TPaveStats *st1;
-
-	for (uint i=0;i<histos.size();i++)
-	{
-		//histos[i]->Scale(1.0/histos[i]->Integral());
-		if( i==0 ){ 
-			histos[i]->SetLineColor(1);
-			//histos[i]->SetTitle("dQ/dx per bin");
-			if( ((TString)histos[i]->GetName()).Contains("dq_dx") ){
-				histos[i]->SetMaximum((histos[i]->GetMaximum())*1.25);
-				histos[i]->SetMinimum((histos[i]->GetMinimum())*0.75);
-			}
-			else if( ((TString)histos[i]->GetName()).Contains("pitch") ){ 
-				histos[i]->SetMaximum( 0.56);
-				histos[i]->SetMinimum( 0.42);
-			}
-			else if( ((TString)histos[i]->GetName()).Contains("charge") ){
-				histos[i]->SetMaximum( 110.);
-				histos[i]->SetMinimum( 90.);
-			}
-			histos[i]->GetYaxis()->SetTitle(xtitle.c_str());
-			histos[i]->SetMaximum(0.42);
-			if( type == 2 ) PaintOverflow(histos[i],i);
-			else histos[i]->Draw("hist E");
-		}
-		else
-		{
-			//area normalize to plane 0
-			histos[i]->SetMaximum(0.42);
-			if( type ==2 ) PaintOverflow(histos[i],i);
-			else histos[i]->Draw("hist E same");
-		}
-	}
-
-	pad->Update();
-
-	for (uint i=0;i<histos.size();i++)
-	{
-		if (histos[i] != NULL) {
-			// lets modify the stat boxes
-			deltay = i*heightboxes;
-			st1 = (TPaveStats*)histos[i]->GetListOfFunctions()->FindObject("stats");
-			if (st1 != NULL) {
-				st1->SetOptStat(1101);
-				st1->SetY1NDC(top_corner-deltay-heightboxes); 
-				st1->SetY2NDC(top_corner-deltay);
-				st1->SetX1NDC(0.80); 
-				st1->SetX2NDC(.995);
-				st1->SetTextColor(colors[i]);
-			}
-			else
-				printf("NULL\n");
-		}
-	}
-
-	legend->Draw("");
-	pad->Update();
-	pad->Modified(); // so it updates the pad with the new changes
-	pad->Draw("");
-	canvas->Print(Form("%s.pdf",canname.Data()),"pdf");
 
 	return;
 }
